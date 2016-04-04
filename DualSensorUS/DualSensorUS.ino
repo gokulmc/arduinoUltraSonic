@@ -8,7 +8,10 @@
 #define trigPin2 12 // Trigger Pin
 #define LEDPin2 9 // Onboard LED
 
-int pass = 0;
+int pass1 = 0;
+int pass2 = 0;
+unsigned long passDuration;
+
 int parked=0;
 int maximumRange = 200; // Maximum range needed - to be changed
 int minimumRange = 0; // Minimum range needed
@@ -71,16 +74,8 @@ void loop() {// ... this is the reading loop
            else {
            /* Send the distance to the computer using Serial protocol, and
            turn LED OFF to indicate successful reading. */
-           Serial.println(distance);
-          if (pass==-1){
-            parked = parked-1;
-            Serial.println("DETECTED NEGATIVE = -1");
-
-            pass=0;
-           }
-           else{
-           pass = 1;
-           }           
+           Serial.println(distance);      
+           pass1=1;     
            digitalWrite(LEDPin1, LOW); 
            }
            
@@ -124,18 +119,8 @@ void loop() {// ... this is the reading loop
            digitalWrite(LEDPin2, HIGH); 
            }
            else {
-           /* Send the distance to the computer using Serial protocol, and
-           turn LED OFF to indicate successful reading. */
            Serial.println(distance);
-           if (pass==1){
-            parked = parked+1;
-            Serial.println("DETECTED POSITIVE = +1");
-            pass=0;
-
-           }
-           else{
-           pass = -1;
-           }
+           pass2=1;
            digitalWrite(LEDPin2, LOW); 
            }
            
