@@ -6,7 +6,7 @@
 
 #define echoPort2 13 // Echo Pin
 #define trigPin2 12 // Trigger Pin
-#define LEDPin2 9 // Onboard LED
+#define LEDPin2 6 // Onboard LED
 
 int pass1 = 0;
 unsigned int t1 =0;
@@ -76,8 +76,8 @@ void loop() {// ... this is the reading loop
            if (distance >= maximumRange || distance <= minimumRange){
            /* Send a negative number to computer and Turn LED ON 
            to indicate "out of range" */
-           Serial.println("1");
-           Serial.println(distance);
+//           Serial.println("1");
+//           Serial.println(distance);
            digitalWrite(LEDPin1, HIGH); 
            }
            else {
@@ -87,7 +87,8 @@ void loop() {// ... this is the reading loop
            if(pass1==0){
                       t1 = millis();
                       pass1=1;
-          
+                      Serial.println("...1...");
+
                   }
            digitalWrite(LEDPin1, LOW); 
            }
@@ -123,6 +124,8 @@ void loop() {// ... this is the reading loop
         if(pass2==0){
                       t2 = millis();
                       pass2=1;
+                      Serial.println("...2...");
+
          }
          digitalWrite(LEDPin2, LOW); 
        }
@@ -130,8 +133,8 @@ void loop() {// ... this is the reading loop
            if (distance >= maximumRange || distance <= minimumRange){
            /* Send a negative number to computer and Turn LED ON 
            to indicate "out of range" */
-           Serial.println("2");
-           Serial.println(distance);
+//           Serial.println("2");
+//           Serial.println(distance);
            digitalWrite(LEDPin2, HIGH); 
            }
            else {
