@@ -12,9 +12,10 @@ int pass1 = 0;
 unsigned int t1 =0;
 int pass2 = 0;
 unsigned int t2=0;
-unsigned long passDuration;
+unsigned long passDuration,passDurationMod;
 unsigned long maxPassDuration = 10000;
 unsigned long minPassDuration=200;
+
 
 
 int parked=0;
@@ -152,29 +153,21 @@ if(pass1==1 && pass2==1){
   passDurationMod = abs(passDuration);
   
   if(passDurationMod>maxPassDuration || passDurationMod<minPassDuration){
-    pass1=0;
-    pass2=0;
-    t1=0;
-    t2=0;
+    Serial.println("error");
   }
   else{
     if(passDuration > 0){
        Serial.println("positive");
-  
     }
     else{
-       Serial.println("negative");
-      
+       Serial.println("negative"); 
     }
   }
+  pass1=0;
+  pass2=0;
+  t1=0;
+  t2=0;
 }
   
-  
-  
-
-
-
-
-
          
 }
