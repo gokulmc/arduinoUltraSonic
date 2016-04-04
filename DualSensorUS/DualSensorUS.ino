@@ -9,8 +9,11 @@
 #define LEDPin2 9 // Onboard LED
 
 int pass1 = 0;
+int t1 =0;
 int pass2 = 0;
+int t2=0;
 unsigned long passDuration;
+
 
 int parked=0;
 int maximumRange = 200; // Maximum range needed - to be changed
@@ -59,9 +62,12 @@ void loop() {// ... this is the reading loop
     if (pulseDuration == 0)
        {
         Serial.println("1 Out of range");
+        if(pass1==0){
+            t1 = millis();
+            pass1=1;
+
+        }
         digitalWrite(LEDPin1, LOW); 
-
-
        }
     else{
            if (distance >= maximumRange || distance <= minimumRange){
@@ -75,14 +81,17 @@ void loop() {// ... this is the reading loop
            /* Send the distance to the computer using Serial protocol, and
            turn LED OFF to indicate successful reading. */
            Serial.println(distance);      
-           pass1=1;     
+           if(pass1==0){
+                      t1 = millis();
+                      pass1=1;
+          
+                  }
            digitalWrite(LEDPin1, LOW); 
            }
            
            //Delay 50ms before next reading.
            delay(200);
          }
-
 
 
          
@@ -108,7 +117,11 @@ void loop() {// ... this is the reading loop
     if (pulseDuration == 0)
        {
         Serial.println("2 Out of range");
-        digitalWrite(LEDPin2, LOW); 
+        if(pass2==0){
+                      t2 = millis();
+                      pass2=1;
+         }
+         digitalWrite(LEDPin2, LOW); 
        }
     else{
            if (distance >= maximumRange || distance <= minimumRange){
@@ -120,7 +133,10 @@ void loop() {// ... this is the reading loop
            }
            else {
            Serial.println(distance);
-           pass2=1;
+           if(pass2==0){
+                      t2 = millis();
+                      pass2=1;
+           }   
            digitalWrite(LEDPin2, LOW); 
            }
            
@@ -128,4 +144,15 @@ void loop() {// ... this is the reading loop
            delay(200);         //delay after out of range - to be removed
 
          }
+
+
+
+
+
+
+
+
+
+
+         
 }
