@@ -9,10 +9,12 @@
 #define LEDPin2 9 // Onboard LED
 
 int pass1 = 0;
-int t1 =0;
+unsigned int t1 =0;
 int pass2 = 0;
-int t2=0;
+unsigned int t2=0;
 unsigned long passDuration;
+unsigned long maxPassDuration = 10000;
+unsigned long minPassDuration=200;
 
 
 int parked=0;
@@ -145,10 +147,30 @@ void loop() {// ... this is the reading loop
 
          }
 
-
-
-
-
+if(pass1==1 && pass2==1){
+  passDuration = t1-t2;
+  passDurationMod = abs(passDuration);
+  
+  if(passDurationMod>maxPassDuration || passDurationMod<minPassDuration){
+    pass1=0;
+    pass2=0;
+    t1=0;
+    t2=0;
+  }
+  else{
+    if(passDuration > 0){
+       Serial.println("positive");
+  
+    }
+    else{
+       Serial.println("negative");
+      
+    }
+  }
+}
+  
+  
+  
 
 
 
