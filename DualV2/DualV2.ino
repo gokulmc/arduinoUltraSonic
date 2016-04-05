@@ -143,8 +143,9 @@ void loop() {// ... this is the reading loop
       case 0: state = 1; break;
       case 1: break;
       case 2: state=0; break;
-      case 3:parked = parked +1; 
+      case 3: parked = parked +1; 
       Serial.println("parked + 1");  
+      state = 1;
     break;
     } break;
     case 2: switch(state){
@@ -153,9 +154,8 @@ void loop() {// ... this is the reading loop
       case 2: break;
       case 3:
       parked = parked -1;
-      p=-1;
       Serial.println("parked - 1");  
-
+      state = 2;
       break;
     } break;
     case 3: state = 3; break;

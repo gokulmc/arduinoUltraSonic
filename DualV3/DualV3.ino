@@ -127,8 +127,9 @@ void loop() {// ... this is the reading loop
            }
            else {
 //           Serial.println(distance);  
-           pass2=1;
            digitalWrite(LEDPin2, LOW); 
+           pass2=1;
+
            }
            
            //Delay 50ms before next reading.
@@ -137,40 +138,39 @@ void loop() {// ... this is the reading loop
          }
 
   switch (pass2*2 + pass1) {
-    case 0:
-      switch (state) {
-      case 0: break;
-      case 1: if(prevState == 3){
-        parked = parked +1; 
-        Serial.println("parked + 1");  
-      }
-      break;
-      case 2: if(prevState == 3){
-        parked = parked -1; 
-        Serial.println("parked - 1");  
-      }break;
-      case 3: break;
-    } state=0; prevState = state; break;
+    case 0:switch (state) {
+              case 0: state=0; prevState = state; break;
+              case 1: if(prevState == 3){
+                        parked = parked +1; 
+                        Serial.println("parked + 1");  
+                      } state=0; prevState = state; break;
+              case 2: if(prevState == 3){
+                        parked = parked -1; 
+                        Serial.println("parked - 1");  
+                      }state=0; prevState = state; break;
+              case 3: state=0; prevState = 0; break;
+            }  break;
     case 1: switch(state){
-    case 0: state=1; prevState = state; break;
-    case 1: state=1; prevState = state; break;
-    case 2: state=0; prevState = 0; break;
-    case 3: state=1; prevState = state; break;
-  } break;
+              case 0: state=1; prevState = state; break;
+              case 1: state=1; prevState = state; break;
+              case 2: state=0; prevState = 0; break;
+              case 3: state=1; prevState = state; break;
+          } break;
     case 2: switch(state){
-    case 0: state=2; prevState = state; break;
-    case 1: state=0; prevState = 0; break;
-    case 2: state=2; prevState = state; break;
-    case 3: state=2; prevState = state; break;
-  }state=0; prevState = state; break;
-    case 3: switch(){
-    case 0: state=0; prevState = 0; break;
-    case 1: state=3; prevState = state; break;
-    case 2: state=3; prevState = state; break;
-    case 3: state=3; prevState = state; break;
-  }  break;
+              case 0: state=2; prevState = state; break;
+              case 1: state=0; prevState = 0; break;
+              case 2: state=2; prevState = state; break;
+              case 3: state=2; prevState = state; break;
+          }state=0; prevState = state; break;
+    case 3: switch(state){
+              case 0: state=0; prevState = 0; break;
+              case 1: state=3; prevState = state; break;
+              case 2: state=3; prevState = state; break;
+              case 3: state=3; prevState = state; break;
+           }  break;
   }
-  Serial.println("State"+state);  
+  Serial.println("State");
+  Serial.println(state);  
 
 }
 
