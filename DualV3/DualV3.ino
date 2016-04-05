@@ -174,5 +174,3 @@ void loop() {// ... this is the reading loop
 
 }
 
-
-
