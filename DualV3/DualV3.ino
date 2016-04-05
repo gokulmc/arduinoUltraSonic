@@ -8,10 +8,10 @@
 #define trigPin2 12 // Trigger Pin
 #define LEDPin2 6 // Onboard LED
 
-int p=0;
 int pass1 = 0;
 int pass2 = 0;
 int state=0;
+int prevState=0;
 unsigned long passDuration,passDurationMod;
 unsigned long maxPassDuration = 10000;
 unsigned long minPassDuration=200;
@@ -137,30 +137,42 @@ void loop() {// ... this is the reading loop
          }
 
   switch (pass2*2 + pass1) {
-    case 0: state =0;
-           break;
-    case 1: switch(state){
-      case 0: state = 1; break;
-      case 1: break;
-      case 2: state=0; break;
-      case 3:parked = parked +1; 
-      Serial.println("parked + 1");  
-    break;
-    } break;
-    case 2: switch(state){
-      case 0: state = 2; break;
-      case 1: state=0; break;
-      case 2: break;
-      case 3:
-      parked = parked -1;
-      p=-1;
-      Serial.println("parked - 1");  
-
+    case 0:
+      switch (state) {
+      case 0: break;
+      case 1: if(prevState == 3){
+        parked = parked +1; 
+        Serial.println("parked + 1");  
+      }
       break;
-    } break;
-    case 3: state = 3; break;
+      case 2: if(prevState == 3){
+        parked = parked -1; 
+        Serial.println("parked - 1");  
+      }break;
+      case 3: break;
+    } state=0; prevState = state; break;
+    case 1: switch(state){
+    case 0: state=1; prevState = state; break;
+    case 1: state=1; prevState = state; break;
+    case 2: state=0; prevState = 0; break;
+    case 3: state=1; prevState = state; break;
+  } break;
+    case 2: switch(state){
+    case 0: state=2; prevState = state; break;
+    case 1: state=0; prevState = 0; break;
+    case 2: state=2; prevState = state; break;
+    case 3: state=2; prevState = state; break;
+  }state=0; prevState = state; break;
+    case 3: switch(){
+    case 0: state=0; prevState = 0; break;
+    case 1: state=3; prevState = state; break;
+    case 2: state=3; prevState = state; break;
+    case 3: state=3; prevState = state; break;
+  }  break;
   }
-  Serial.println("State");
-  Serial.println(state);  
+  Serial.println("State"+state);  
 
 }
+
+
+
