@@ -9,6 +9,7 @@
 #define LEDPin2 6 // Onboard LED
 
 int p = 0;
+int parking =0;
 int pass1 = 0;
 int pass2 = 0;
 int state = 0;
