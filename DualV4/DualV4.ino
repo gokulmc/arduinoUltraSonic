@@ -13,6 +13,8 @@ int parking =0;
 int pass1 = 0;
 int pass2 = 0;
 int state = 0;
+int parkedBy=0;
+int dl=50;
 unsigned long passDuration, passDurationMod;
 unsigned long maxPassDuration = 10000;
 unsigned long minPassDuration = 200;
@@ -87,7 +89,7 @@ void loop() {// ... this is the reading loop
     }
 
     //Delay 50ms before next reading.
-    delay(200);
+    delay(dl);
   }
 
 
@@ -133,27 +135,31 @@ void loop() {// ... this is the reading loop
     }
 
     //Delay 50ms before next reading.
-    delay(200);         //delay after out of range - to be removed
+    delay(dl);         //delay after out of range - to be removed
 
   }
 
   switch (pass2 * 2 + pass1) {
-    case 0: //state=0;
+    case 0: 
           switch(state){
             case 0: state =0;      break;
             case 1: if (parking==1){
               parking =0;
+              if(parkedBy==2){
+                parkedBy=0;
               parked = parked + 1;
-              Serial.println("parked + 1");
+              Serial.println("parked + 1");}
             }
             break; 
             case 2: if (parking==1){
               parking =0;
+              if(parkedBy==1){
+                parkedBy=0;
               parked = parked - 1;
-              Serial.println("parked - 1");
+              Serial.println("parked - 1");}
               }break;
             case 3: state =0;      break;
-          }
+          }state=0;
       break;
     case 1: switch (state) {
         case 0: state = 1; break;
@@ -171,7 +177,14 @@ void loop() {// ... this is the reading loop
           state = 2;
           break;
       } break;
-    case 3: state = 3; break;
+    case 3: switch (state) {
+        case 0: break;
+        case 1: parkedBy=1; break;
+        case 2: parkedBy=2;break;
+        case 3:break;
+    }
+         state = 3; break;
+    
   }
   Serial.println("State");
   Serial.println(state);
